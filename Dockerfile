@@ -51,8 +51,31 @@ RUN \
 	"https://github.com/coredns/coredns/releases/download/v${COREDNS_VERSION}/coredns_${COREDNS_VERSION}_linux_amd64.tgz" && \
  tar xf \
 	/tmp/coredns.tar.gz -C \
-	/app && \
- echo "**** clean up ****" && \
+	/app 
+
+## Install Project dependencies
+
+## INSTALL POSTGRESS CLIENT
+## add postgresql-client to sources repos
+RUN sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-pgdg main" > /etc/apt/sources.list.d/pgdg.list'
+
+## install wget
+RUN apt-get install -y wget
+
+## install signing package 
+RUN wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add -
+
+## update package 
+RUN apt-get update
+
+## install psql to test database access
+RUN apt-get install -y postgresql-client
+
+## Install java 11
+RUN apt-get install -y openjdk-11-jdk
+
+## Clean up install folders
+RUN echo "**** clean up ****" && \
  rm -rf \
 	/tmp/* \
 	/var/lib/apt/lists/* \
