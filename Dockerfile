@@ -74,6 +74,12 @@ RUN apt-get install -y postgresql-client
 ## Install java 11
 RUN apt-get install -y openjdk-11-jdk
 
+## Install Nodejs 16 & PM2 for monitoring App lunching
+RUN curl -s https://deb.nodesource.com/setup_16.x | bash
+RUN apt-get install nodejs -y
+RUN npm install -g pm2
+RUN pm2 startup
+
 ## Clean up install folders
 RUN echo "**** clean up ****" && \
  rm -rf \
